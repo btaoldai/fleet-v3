@@ -1,0 +1,28 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/protocol",
+    "crates/ollama",
+    "crates/personas",
+    "crates/sanitize",
+    "crates/bot-root",
+    "crates/bot-root-client",
+    "crates/bot",
+]
+
+# Socle partage de la flotte srv-bot v3 (architecture bot-root, gardien GPU).
+# Reference : srv-bot/swarm/ARCHITECTURE-fleet-v3.md + ADR-015.
+# Crates capacite (rag, anythingllm, alertmanager, skills) ajoutes au fil de la
+# migration (D7 : socle d'abord).
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["TheRustLab"]
+
+[workspace.dependencies]
+thiserror = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"

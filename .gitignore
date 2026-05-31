@@ -1,0 +1,16 @@
+# Rust / Cargo
+/target
+**/*.rs.bk
+
+# Cargo.lock est conservé (le workspace contient un binaire, bot-root).
+
+# Secrets et runtime
+.env
+.env.*
+*.sock
+
+# Éditeurs / OS
+/.idea
+/.vscode
+.DS_Store
+Thumbs.db

@@ -1,0 +1,19 @@
+[package]
+name = "fleet-ollama"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Client Ollama unifie de la flotte srv-bot v3 (resorbe les 3 signatures divergentes)."
+
+[dependencies]
+# Note : pas de dependance a fleet-core pour l'instant — le client Ollama est
+# autonome. A recoupler si l'on veut partager les newtypes/erreurs du socle.
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }
