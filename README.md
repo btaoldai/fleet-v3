@@ -4,6 +4,7 @@ Orchestrateur d'inférence LLM local pour une flotte de bots Discord partageant
 **un seul GPU**, écrit en Rust. Conçu pour un homelab sous contrainte mémoire
 forte (un GPU 6 Go de VRAM pour plusieurs bots et plusieurs modèles).
 
+[![CI](https://github.com/btaoldai/fleet-v3/actions/workflows/ci.yml/badge.svg)](https://github.com/btaoldai/fleet-v3/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Le problème
@@ -81,6 +82,29 @@ Configuration par variables d'environnement (valeurs par défaut) :
 | `OLLAMA_TIMEOUT_SECS` | `240` | Timeout HTTP (généreux pour l'offload RAM) |
 | `BOT_ROOT_SWAP_COOLDOWN_SECS` | `2` | Cooldown de settling au swap de modèle |
 | `WINSTON_ESCALATION_MODEL` | (absent) | Modèle d'escalade optionnel selon la VRAM/RAM disponible |
+
+## Démarrage rapide
+
+Prérequis : [Rust](https://rustup.rs) et [Ollama](https://ollama.com) installé et lancé.
+
+```bash
+# 1. Tirer le modèle par défaut utilisé dans l'exemple
+ollama pull qwen2.5:3b
+
+# 2. Lancer le daemon bot-root (pointé sur l'Ollama local)
+OLLAMA_URL=http://localhost:11434 cargo run --bin bot-root
+
+# 3. Dans un autre terminal : envoyer une requête de test
+cargo run -p bot-root-client --example send_request
+```
+
+L'exemple [`send_request`](crates/bot-root-client/examples/send_request.rs) envoie
+une `InferenceRequest` au socket Unix du daemon et affiche la réponse. C'est le
+point d'entrée pour comprendre comment brancher un bot sur bot-root.
+
+> Note : le `Bot` enum (`Noria`, `Winston`, `WallAi`) et
+> `ModelRegistry::fleet_defaults()` sont **opinionés** sur une flotte de trois
+> bots. Pour ton propre usage, adapte-les à tes bots et à tes modèles.
 
 ## Statut
 
